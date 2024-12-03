@@ -35,11 +35,11 @@ def obtener_tweets(query, count=10, retries=3):
     return tweets, temas
 
 # Obtener tweets reales
-queries = ["deportes", "tecnología"]
+queries = ["deportes"]
 tweets = []
 temas = []
 total_tweets = 0
-max_tweets = 20
+max_tweets = 10
 
 for query in queries:
     if total_tweets >= max_tweets:
