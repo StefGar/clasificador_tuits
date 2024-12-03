@@ -25,6 +25,9 @@ temas = []
 
 for query in queries:
     t = obtener_tweets(query, count=1)  # Obtener 1 tweet por categoría
+    if not t:
+        print(f"No tweets found for query: {query}")
+        continue
     tweets.extend(t)
     temas.extend([query] * len(t))
     time.sleep(60)  # Wait 60 seconds between requests to avoid rate limit
