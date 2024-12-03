@@ -1,8 +1,8 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 from collections import Counter
+from vectorizacion import vectorizar_texto
+from preprocesamiento import limpiar_texto
+from modelo import entrenar_modelo, evaluar_modelo
 
 # Datos balanceados
 tweets = [
@@ -21,8 +21,8 @@ print("Distribución de clases antes de dividir:")
 print(Counter(temas))  # Aquí ves cuántos ejemplos hay por clase.
 
 # Preprocesamiento
-vectorizer = TfidfVectorizer(max_features=5000)
-X = vectorizer.fit_transform(tweets)
+tweets_limpios = [limpiar_texto(t) for t in tweets]
+X, vectorizer = vectorizar_texto(tweets_limpios)
 
 # División de datos balanceada
 X_train, X_test, y_train, y_test = train_test_split(
@@ -30,9 +30,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Entrenamiento del modelo
-modelo = LogisticRegression(max_iter=1000, class_weight='balanced')
-modelo.fit(X_train, y_train)
+modelo = entrenar_modelo(X_train, y_train)
 
 # Predicción y evaluación
-y_pred = modelo.predict(X_test)
-print(classification_report(y_test, y_pred, zero_division=0))
+evaluar_modelo(modelo, X_test, y_test)
