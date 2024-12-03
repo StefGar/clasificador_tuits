@@ -1,3 +1,5 @@
+from sklearn.metrics import classification_report
+from sklearn.naive_bayes import MultinomialNB
 from preprocesamiento import limpiar_texto
 from vectorizacion import vectorizar_texto
 from modelo import entrenar_modelo, evaluar_modelo
