@@ -39,7 +39,7 @@ queries = ["deportes"]
 tweets = []
 temas = []
 total_tweets = 0
-max_tweets = 1
+max_tweets = 3  # Reducir a 3 tweets para fines demostrativos
 
 for query in queries:
     if total_tweets >= max_tweets:
@@ -49,7 +49,7 @@ for query in queries:
     tweets.extend(t)
     temas.extend(te)
     total_tweets += len(t)
-    time.sleep(300)  # Esperar 300 segundos (5 minutos) entre consultas para evitar el límite de tasa
+    time.sleep(60)  # Esperar 60 segundos entre consultas para evitar el límite de tasa
 
 # Verificar el balance de clases
 print("Distribución de clases antes de dividir:")
