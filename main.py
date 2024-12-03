@@ -3,6 +3,7 @@ from collections import Counter
 from vectorizacion import vectorizar_texto
 from preprocesamiento import limpiar_texto
 from modelo import entrenar_modelo, evaluar_modelo
+from sklearn.ensemble import RandomForestClassifier
 
 # Datos balanceados
 tweets = [
@@ -26,11 +27,12 @@ X, vectorizer = vectorizar_texto(tweets_limpios)
 
 # División de datos balanceada
 X_train, X_test, y_train, y_test = train_test_split(
-    X, temas, test_size=0.34, random_state=42, stratify=temas
+    X, temas, test_size=0.33, random_state=42, stratify=temas
 )
 
 # Entrenamiento del modelo
-modelo = entrenar_modelo(X_train, y_train)
+modelo = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+modelo.fit(X_train, y_train)
 
 # Predicción y evaluación
 evaluar_modelo(modelo, X_test, y_test)
