@@ -4,6 +4,7 @@ from collections import Counter
 from vectorizacion import vectorizar_texto
 from preprocesamiento import limpiar_texto
 from modelo import entrenar_modelo, evaluar_modelo
+import snscrape.modules.twitter as sntwitter
 import time
 
 # Configuración de la API de Twitter
@@ -19,9 +20,11 @@ client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuil
 def obtener_tweets(query, count=1):
     tweets = []
     try:
-        for tweet in tweepy.Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=1).flatten(limit=count):
-            tweets.append(tweet.text)
-    except tweepy.errors.TweepyException as e:
+        for i, tweet in enumerate(sntwitter.TwitterSearchScraper(f'{query} since:2024-01-01 until:2024-12-01').get_items()):
+            if i >= count:
+                break
+            tweets.append(tweet.content)
+    except Exception as e:
         print(f"Error fetching tweets: {e}")
     return tweets
 
