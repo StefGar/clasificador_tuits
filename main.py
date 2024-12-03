@@ -35,11 +35,11 @@ def obtener_tweets(query, count=10, retries=3):
     return tweets, temas
 
 # Obtener tweets reales
-queries = ["deportes", "tecnología", "política"]
+queries = ["deportes", "tecnología"]
 tweets = []
 temas = []
 total_tweets = 0
-max_tweets = 30
+max_tweets = 20
 
 for query in queries:
     if total_tweets >= max_tweets:
@@ -49,7 +49,7 @@ for query in queries:
     tweets.extend(t)
     temas.extend(te)
     total_tweets += len(t)
-    time.sleep(5)  # Esperar 5 segundos entre consultas para evitar el límite de tasa
+    time.sleep(10)  # Esperar 10 segundos entre consultas para evitar el límite de tasa
 
 # Verificar el balance de clases
 print("Distribución de clases antes de dividir:")
