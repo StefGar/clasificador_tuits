@@ -38,10 +38,16 @@ def obtener_tweets(query, count=50, retries=3):
 queries = ["deportes", "tecnología", "política"]
 tweets = []
 temas = []
+total_tweets = 0
+max_tweets = 100
+
 for query in queries:
-    t, te = obtener_tweets(query)
+    if total_tweets >= max_tweets:
+        break
+    t, te = obtener_tweets(query, count=min(50, max_tweets - total_tweets))
     tweets.extend(t)
     temas.extend(te)
+    total_tweets += len(t)
 
 # Verificar el balance de clases
 print("Distribución de clases antes de dividir:")
