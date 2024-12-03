@@ -16,6 +16,10 @@ tweets = [
 ]
 temas = ["deportes", "tecnología", "política", "deportes", "tecnología", "política", "deportes", "tecnología", "política"]
 
+# Verificar el balance de clases
+print("Distribución de clases antes de dividir:")
+print(Counter(temas))  # Aquí ves cuántos ejemplos hay por clase.
+
 # Preprocesamiento
 vectorizer = TfidfVectorizer(max_features=5000)
 X = vectorizer.fit_transform(tweets)
