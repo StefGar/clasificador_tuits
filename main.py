@@ -18,11 +18,11 @@ ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
 client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuiluFXTjeD01EiCJVcg%3DawRNQQMMKkEU7TFQY8ySOXMgbpjZfCGEqWXrekl9W73dbrVXd6')
 
 # Función para obtener tweets reales
-def obtener_tweets(query, count=100):
+def obtener_tweets(query, count=50):
     tweets = []
     temas = []
     try:
-        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=100).flatten(limit=count):
+        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=50).flatten(limit=count):
             tweets.append(tweet.text)
             temas.append(query)
     except tweepy.errors.TooManyRequests:
