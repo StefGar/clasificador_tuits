@@ -7,14 +7,13 @@ from sklearn.model_selection import train_test_split
 
 # Cargar datos de ejemplo
 tweets = [
-    "Me gusta el fútbol",  # Deportes
-    "Hoy es un buen día para la política",  # Política
-    "Gran avance en tecnología",  # Tecnología
-    "El partido de ayer estuvo emocionante",  # Deportes
-    "La inteligencia artificial es increíble",  # Tecnología
-    "Debatieron sobre economía en el congreso",  # Política
+    "Me gusta el fútbol", "Hoy es un buen día para la política",
+    "Gran avance en tecnología", "El partido de ayer estuvo emocionante",
+    "La inteligencia artificial es increíble", "Debatieron sobre economía en el congreso",
+    "Increíble gol en el partido de anoche", "El congreso aprobó la nueva ley",
+    "La robótica avanza rápidamente", "Otro partido emocionante en la liga",
 ]
-temas = ["deportes", "política", "tecnología", "deportes", "tecnología", "política"]
+temas = ["deportes", "política", "tecnología", "deportes", "tecnología", "política", "deportes", "política", "tecnología", "deportes"]
 
 # Preprocesamiento: limpiar los tweets
 tweets_limpios = [limpiar_texto(tweet) for tweet in tweets]
@@ -23,7 +22,7 @@ tweets_limpios = [limpiar_texto(tweet) for tweet in tweets]
 X, vectorizer = vectorizar_texto(tweets_limpios)
 
 # Dividir los datos en conjuntos de entrenamiento y prueba
-X_train, X_test, y_train, y_test = train_test_split(X, temas, test_size=0.2, random_state=42,
+X_train, X_test, y_train, y_test = train_test_split(X, temas, test_size=0.5, random_state=42,
   stratify=temas)
 
 # Entrenar el modelo con los datos de entrenamiento
