@@ -18,11 +18,11 @@ ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
 client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuiluFXTjeD01EiCJVcg%3DawRNQQMMKkEU7TFQY8ySOXMgbpjZfCGEqWXrekl9W73dbrVXd6')
 
 # Función para obtener tweets reales
-def obtener_tweets(query, count=50, retries=3):
+def obtener_tweets(query, count=10, retries=3):
     tweets = []
     temas = []
     try:
-        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=50).flatten(limit=count):
+        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=10).flatten(limit=count):
             tweets.append(tweet.text)
             temas.append(query)
     except tweepy.errors.TooManyRequests:
@@ -39,12 +39,13 @@ queries = ["deportes", "tecnología", "política"]
 tweets = []
 temas = []
 total_tweets = 0
-max_tweets = 100
+max_tweets = 30
 
 for query in queries:
     if total_tweets >= max_tweets:
         break
-    t, te = obtener_tweets(query, count=min(50, max_tweets - total_tweets))
+    remaining_tweets = max_tweets - total_tweets
+    t, te = obtener_tweets(query, count=min(remaining_tweets, 10))  # Limitar a 10 por query
     tweets.extend(t)
     temas.extend(te)
     total_tweets += len(t)
