@@ -1,10 +1,12 @@
-from sklearn.naive_bayes import MultinomialNB
+#from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
     # Crear una instancia del clasificador Naive Bayes Multinomial
-    modelo = MultinomialNB()
+    #modelo = MultinomialNB()
+    modelo = LogisticRegression(max_iter = 1000, class_weight='balanced') #Modelo más robusto
     # Ajustar el modelo con los datos de entrenamiento
     modelo.fit(X_train, y_train)
     # Devolver el modelo entrenado
