@@ -1,20 +1,10 @@
-import tweepy
+import snscrape.modules.twitter as sntwitter
 from sklearn.model_selection import train_test_split
 from collections import Counter
 from vectorizacion import vectorizar_texto
 from preprocesamiento import limpiar_texto
 from modelo import entrenar_modelo, evaluar_modelo
-import snscrape.modules.twitter as sntwitter
 import time
-
-# Configuración de la API de Twitter
-API_KEY = 'ERVMZ1ye8hogmoZikKQSeFFFk'
-API_SECRET_KEY = '5APUDubVndEsgulrPishFOv1XEd79QLjiZRkIoE2PhZDtL0809'
-ACCESS_TOKEN = '594928958-sPS8vux0SaPtfXngsiodTCy2sCQUfRqPfGL9PYZ0'
-ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
-
-# Autenticación con la API de Twitter
-client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuiluFXTjeD01EiCJVcg%3DawRNQQMMKkEU7TFQY8ySOXMgbpjZfCGEqWXrekl9W73dbrVXd6', wait_on_rate_limit=True)
 
 # Función para obtener tweets
 def obtener_tweets(query, count=1):
