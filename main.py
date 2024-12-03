@@ -26,7 +26,7 @@ X, vectorizer = vectorizar_texto(tweets_limpios)
 
 # División de datos balanceada
 X_train, X_test, y_train, y_test = train_test_split(
-    X, temas, test_size=0.34, random_state=42, stratify=temas
+    X, temas, test_size=0.22, random_state=42, stratify=temas
 )
 
 # Entrenamiento del modelo
