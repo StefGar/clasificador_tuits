@@ -18,11 +18,11 @@ ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
 client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuiluFXTjeD01EiCJVcg%3DawRNQQMMKkEU7TFQY8ySOXMgbpjZfCGEqWXrekl9W73dbrVXd6')
 
 # Función para obtener tweets reales
-def obtener_tweets(query, count=3, retries=3):
+def obtener_tweets(query, count=1, retries=3):
     tweets = []
     temas = []
     try:
-        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=3).flatten(limit=count):
+        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=1).flatten(limit=count):
             tweets.append(tweet.text)
             temas.append(query)
     except tweepy.errors.TooManyRequests:
@@ -39,17 +39,17 @@ queries = ["deportes"]
 tweets = []
 temas = []
 total_tweets = 0
-max_tweets = 3
+max_tweets = 1
 
 for query in queries:
     if total_tweets >= max_tweets:
         break
     remaining_tweets = max_tweets - total_tweets
-    t, te = obtener_tweets(query, count=min(remaining_tweets, 3))  # Limitar a 3 por query
+    t, te = obtener_tweets(query, count=min(remaining_tweets, 1))  # Limitar a 1 por query
     tweets.extend(t)
     temas.extend(te)
     total_tweets += len(t)
-    time.sleep(120)  # Esperar 120 segundos entre consultas para evitar el límite de tasa
+    time.sleep(300)  # Esperar 300 segundos (5 minutos) entre consultas para evitar el límite de tasa
 
 # Verificar el balance de clases
 print("Distribución de clases antes de dividir:")
