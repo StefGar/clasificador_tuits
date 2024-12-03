@@ -1,8 +1,9 @@
 import tweepy
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics import classification_report
+from collections import Counter
+from vectorizacion import vectorizar_texto
+from preprocesamiento import limpiar_texto
+from modelo import entrenar_modelo, evaluar_modelo
 import time
 
 # Configuración de la API de Twitter
@@ -21,11 +22,11 @@ def obtener_tweets(query, count=1):
         for tweet in tweepy.Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=1).flatten(limit=count):
             tweets.append(tweet.text)
     except tweepy.errors.TweepyException as e:
-        print(f"Error al obtener tweets: {e}")
+        print(f"Error fetching tweets: {e}")
     return tweets
 
 # Obtener tweets para prueba
-queries = ["deportes", "tecnología", "ciencia"]
+queries = ["sports", "technology", "science"]
 tweets = []
 temas = []
 
@@ -33,24 +34,22 @@ for query in queries:
     t = obtener_tweets(query, count=1)  # Obtener 1 tweet por categoría
     tweets.extend(t)
     temas.extend([query] * len(t))
+    time.sleep(60)  # Wait 60 seconds between requests to avoid rate limit
 
 # Verificar tweets obtenidos
-print("Tweets obtenidos:")
+print("Fetched tweets:")
 for i, tweet in enumerate(tweets):
     print(f"{temas[i]}: {tweet}")
 
-# Vectorización (convertir texto en características numéricas)
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(tweets)
+# Preprocesamiento
+tweets_limpios = [limpiar_texto(t) for t in tweets]
+X, vectorizer = vectorizar_texto(tweets_limpios)
 
 # División de datos
 X_train, X_test, y_train, y_test = train_test_split(X, temas, test_size=0.33, random_state=42, stratify=temas)
 
 # Entrenamiento del modelo
-modelo = RandomForestClassifier(n_estimators=10, random_state=42, class_weight='balanced')
-modelo.fit(X_train, y_train)
+modelo = entrenar_modelo(X_train, y_train)
 
 # Evaluación del modelo
-y_pred = modelo.predict(X_test)
-print("\nReporte de clasificación:")
-print(classification_report(y_test, y_pred))
+evaluar_modelo(modelo, X_test, y_test)
