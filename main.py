@@ -1,3 +1,4 @@
+import tweepy
 from sklearn.model_selection import train_test_split
 from collections import Counter
 from vectorizacion import vectorizar_texto
@@ -5,17 +6,33 @@ from preprocesamiento import limpiar_texto
 from modelo import entrenar_modelo, evaluar_modelo
 from sklearn.ensemble import RandomForestClassifier
 
-# Datos balanceados
-tweets = [
-    "El fútbol es mi deporte favorito", "La tecnología avanza día a día",
-    "El congreso discutió nuevas leyes", "Gran partido de tenis ayer",
-    "La inteligencia artificial está revolucionando el mundo",
-    "El presidente anunció nuevas políticas económicas",
-    "El baloncesto está creciendo en popularidad",
-    "Se lanzaron nuevos gadgets tecnológicos",
-    "Las elecciones están cerca",
-]
-temas = ["deportes", "tecnología", "política", "deportes", "tecnología", "política", "deportes", "tecnología", "política"]
+# Configuración de la API de Twitter
+API_KEY = 'ERVMZ1ye8hogmoZikKQSeFFFk'
+API_SECRET_KEY = '5APUDubVndEsgulrPishFOv1XEd79QLjiZRkIoE2PhZDtL0809'
+ACCESS_TOKEN = '594928958-sPS8vux0SaPtfXngsiodTCy2sCQUfRqPfGL9PYZ0'
+ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
+
+# Autenticación con la API de Twitter
+auth = tweepy.OAuth1UserHandler(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+api = tweepy.API(auth)
+
+# Función para obtener tweets reales
+def obtener_tweets(query, count=100):
+    tweets = []
+    temas = []
+    for tweet in tweepy.Cursor(api.search_tweets, q=query, lang="es").items(count):
+        tweets.append(tweet.text)
+        temas.append(query)
+    return tweets, temas
+
+# Obtener tweets reales
+queries = ["deportes", "tecnología", "política"]
+tweets = []
+temas = []
+for query in queries:
+    t, te = obtener_tweets(query)
+    tweets.extend(t)
+    temas.extend(te)
 
 # Verificar el balance de clases
 print("Distribución de clases antes de dividir:")
