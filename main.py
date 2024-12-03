@@ -18,7 +18,7 @@ ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
 client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuiluFXTjeD01EiCJVcg%3DawRNQQMMKkEU7TFQY8ySOXMgbpjZfCGEqWXrekl9W73dbrVXd6')
 
 # Función para obtener tweets reales
-def obtener_tweets(query, count=50):
+def obtener_tweets(query, count=50, retries=3):
     tweets = []
     temas = []
     try:
@@ -26,9 +26,12 @@ def obtener_tweets(query, count=50):
             tweets.append(tweet.text)
             temas.append(query)
     except tweepy.errors.TooManyRequests:
-        print("Rate limit exceeded. Waiting for 15 minutes.")
-        time.sleep(15 * 60)  # Esperar 15 minutos
-        return obtener_tweets(query, count)
+        if retries > 0:
+            print("Rate limit exceeded. Waiting for 15 minutes.")
+            time.sleep(15 * 60)  # Esperar 15 minutos
+            return obtener_tweets(query, count, retries - 1)
+        else:
+            print("Max retries exceeded.")
     return tweets, temas
 
 # Obtener tweets reales
