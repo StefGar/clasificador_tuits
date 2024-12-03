@@ -31,7 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Entrenamiento del modelo
-modelo = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+modelo = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
 modelo.fit(X_train, y_train)
 
 # Predicción y evaluación
