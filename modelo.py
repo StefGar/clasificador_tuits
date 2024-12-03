@@ -15,4 +15,4 @@ def evaluar_modelo(modelo, X_test, y_test):
     # Predecir las etiquetas para los datos de prueba
     y_pred = modelo.predict(X_test)
     # Imprimir el reporte de clasificación
-    print(classification_report(y_test, y_pred))
+    print(classification_report(y_test, y_pred, zero_division=0))
