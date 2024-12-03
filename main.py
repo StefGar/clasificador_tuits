@@ -5,6 +5,7 @@ from vectorizacion import vectorizar_texto
 from preprocesamiento import limpiar_texto
 from modelo import entrenar_modelo, evaluar_modelo
 from sklearn.ensemble import RandomForestClassifier
+from tweepy import Paginator
 
 # Configuración de la API de Twitter
 API_KEY = 'ERVMZ1ye8hogmoZikKQSeFFFk'
@@ -13,14 +14,13 @@ ACCESS_TOKEN = '594928958-sPS8vux0SaPtfXngsiodTCy2sCQUfRqPfGL9PYZ0'
 ACCESS_TOKEN_SECRET = 'IbgCgKZoX5JYxxmK7rhV7INp7VkuaFdljWAhipzfsjNf4'
 
 # Autenticación con la API de Twitter
-auth = tweepy.OAuth1UserHandler(API_KEY, API_SECRET_KEY, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-api = tweepy.API(auth)
+client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuiluFXTjeD01EiCJVcg%3DawRNQQMMKkEU7TFQY8ySOXMgbpjZfCGEqWXrekl9W73dbrVXd6')
 
 # Función para obtener tweets reales
 def obtener_tweets(query, count=100):
     tweets = []
     temas = []
-    for tweet in tweepy.Cursor(api.search_tweets, q=query, lang="es").items(count):
+    for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=100).flatten(limit=count):
         tweets.append(tweet.text)
         temas.append(query)
     return tweets, temas
