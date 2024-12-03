@@ -49,6 +49,7 @@ for query in queries:
     tweets.extend(t)
     temas.extend(te)
     total_tweets += len(t)
+    time.sleep(5)  # Esperar 5 segundos entre consultas para evitar el límite de tasa
 
 # Verificar el balance de clases
 print("Distribución de clases antes de dividir:")
