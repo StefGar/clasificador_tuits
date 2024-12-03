@@ -6,7 +6,7 @@ from modelo import entrenar_modelo, evaluar_modelo
 from sklearn.model_selection import train_test_split
 
 # Cargar datos de ejemplo
-tweets = ["Me gusta el futbol", "Hoy es un buen día para la política", "Gran avance en tecnologías", "Odio golf"]
+tweets = ["Me gusta el futbol", "Hoy es un buen día para la política", "Gran avance en tecnologías"]
 temas = ["Deportes", "Política", "Tecnología"]
 
 # Preprocesamiento: limpiar los tweets
