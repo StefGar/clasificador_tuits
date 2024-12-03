@@ -6,6 +6,7 @@ from preprocesamiento import limpiar_texto
 from modelo import entrenar_modelo, evaluar_modelo
 from sklearn.ensemble import RandomForestClassifier
 from tweepy import Paginator
+import time
 
 # Configuración de la API de Twitter
 API_KEY = 'ERVMZ1ye8hogmoZikKQSeFFFk'
@@ -20,9 +21,14 @@ client = tweepy.Client(bearer_token='AAAAAAAAAAAAAAAAAAAAAOxbxQEAAAAAFv4ZZePbuil
 def obtener_tweets(query, count=100):
     tweets = []
     temas = []
-    for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=100).flatten(limit=count):
-        tweets.append(tweet.text)
-        temas.append(query)
+    try:
+        for tweet in Paginator(client.search_recent_tweets, query=query, tweet_fields=['text'], max_results=100).flatten(limit=count):
+            tweets.append(tweet.text)
+            temas.append(query)
+    except tweepy.errors.TooManyRequests:
+        print("Rate limit exceeded. Waiting for 15 minutes.")
+        time.sleep(15 * 60)  # Esperar 15 minutos
+        return obtener_tweets(query, count)
     return tweets, temas
 
 # Obtener tweets reales
