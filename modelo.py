@@ -1,10 +1,10 @@
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 # Función para entrenar el modelo
 def entrenar_modelo(X_train, y_train):
-    # Crear una instancia del clasificador Logistic Regression
-    modelo = LogisticRegression(max_iter=1000, class_weight='balanced') #Modelo más robusto
+    # Crear una instancia del clasificador Random Forest
+    modelo = RandomForestClassifier(n_estimators=100, class_weight='balanced', random_state=42)
     # Ajustar el modelo con los datos de entrenamiento
     modelo.fit(X_train, y_train)
     # Devolver el modelo entrenado
