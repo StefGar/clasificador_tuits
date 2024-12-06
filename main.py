@@ -44,6 +44,10 @@ X, vectorizer = vectorizar_texto(tweets_limpios)
 # División de datos
 X_train, X_test, y_train, y_test = train_test_split(X, temas, test_size=0.33, random_state=42, stratify=temas)
 
+# Verificar la distribución de clases en los datos de entrenamiento y prueba
+print("Distribución de clases en el conjunto de entrenamiento:", Counter(y_train))
+print("Distribución de clases en el conjunto de prueba:", Counter(y_test))
+
 # Entrenamiento del modelo
 modelo = entrenar_modelo(X_train, y_train)
 
