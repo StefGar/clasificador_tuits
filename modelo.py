@@ -30,4 +30,12 @@ def evaluar_modelo(modelo, X_test, y_test):
     # Predecir las etiquetas para los datos de prueba
     y_pred = modelo.predict(X_test)
     # Imprimir el reporte de clasificación
-    print(classification_report(y_test, y_pred, zero_division=1))
+    report = classification_report(y_test, y_pred, zero_division=1, output_dict=True)
+    report_str = "               precisión    recall  f1-score   soporte\n\n"
+    for label, metrics in report.items():
+        if label in ['accuracy', 'macro avg', 'weighted avg']:
+            report_str += f"{label:12} "
+        else:
+            report_str += f"{label:12} "
+        report_str += f"{metrics['precision']:10.2f} {metrics['recall']:10.2f} {metrics['f1-score']:10.2f} {metrics['support']:10}\n"
+    print(report_str)
