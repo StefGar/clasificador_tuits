@@ -24,7 +24,7 @@ tweets = []
 temas = []
 
 for query in queries:
-    t = obtener_tweets(query, count=500)  # Obtener 500 tweets por categoría
+    t = obtener_tweets(query, count=1000)  # Obtener 1000 tweets por categoría
     if not t:
         print(f"No tweets found for query: {query}")
         continue
