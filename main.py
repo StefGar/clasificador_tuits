@@ -37,6 +37,10 @@ print("Fetched tweets:")
 for i, tweet in enumerate(tweets):
     print(f"{temas[i]}: {tweet}")
 
+# Verificar si hay suficientes tweets para cada categoría
+if len(set(temas)) < 2:
+    raise ValueError("No hay suficientes categorías de tweets para entrenar el modelo.")
+
 # Preprocesamiento
 tweets_limpios = [limpiar_texto(t) for t in tweets]
 X, vectorizer = vectorizar_texto(tweets_limpios)
