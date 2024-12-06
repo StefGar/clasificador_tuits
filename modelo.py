@@ -38,4 +38,4 @@ def evaluar_modelo(modelo, X_test, y_test):
         else:
             report_str += f"{label:12} "
         report_str += f"{metrics['precision']:10.2f} {metrics['recall']:10.2f} {metrics['f1-score']:10.2f} {metrics['support']:10}\n"
-    print(report_str)
+    print(report_str.replace('accuracy', 'exactitud').replace('macro avg', 'promedio macro').replace('weighted avg', 'promedio ponderado'))
